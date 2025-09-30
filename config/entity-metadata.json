@@ -1,0 +1,20 @@
+{
+  "authority_hints": [
+    "https://trust-anchor.oidf.swefed.se"
+  ],
+  "metadata": {
+    "federation_entity": {
+      "contacts": [
+        "ops@example.org"
+      ],
+      "organization_uri": "https://www.example.org",
+      "organization_name": "Exampel Org"
+    },
+    "openid_provider": {
+      "issuer": "https://my-op-not-oidf-entity.example.org",
+      "authorization_endpoint": "https://my-op-not-oidf-entity.example.org/authorize",
+      "token_endpoint": "https://my-op-not-oidf-entity.example.org/token",
+      "jwks_uri": "https://my-op-not-oidf-entity.example.org/jwks"
+    }
+  }
+}

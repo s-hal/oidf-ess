@@ -1,0 +1,47 @@
+# Bootstrap-generated secrets and TLS
+secrets/
+!secrets/.gitkeep
+secrets/**/*
+secrets/tls/
+secrets/tls/**
+
+# common CSR scratch
+**/*.csr
+nginx/https_certs/
+
+# Bootstrap-generated config
+config/fed-es256-public.jwk
+config/fed-jwks.json
+
+# Bootstrap-generated runtime artifact
+data/www/.well-known/openid-federation
+
+# Bootstrap-generated local env/state
+venv/
+.env
+tmp/
+*.tmp
+*.log
+logs/
+coverage/
+.coverage*
+
+# Python cache/build
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+build/
+dist/
+*.egg-info/
+
+# Editors/OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+#  Docker local overrides
+docker-compose.override.yml
+
+

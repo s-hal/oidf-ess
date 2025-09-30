@@ -1,0 +1,48 @@
+x-sec: &sec
+  read_only: true
+  security_opt: ["no-new-privileges:true"]
+  cap_drop: ["ALL"]
+  tmpfs: ["/tmp:rw,noexec,nosuid,nodev,mode=1777"]
+  
+
+services:
+  # Reverse proxy serving /.well-known/openid-federation
+  nginx:
+    <<: *sec
+    user: "${UID}:${GID}"
+    image: nginx:1.27-alpine
+    container_name: oidf-ess-nginx
+    ports:
+      - "443:8443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/https_certs:/etc/nginx/https_certs
+      - ./data/www:/srv/www:ro                         
+    depends_on:
+      - signer
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/health || exit 1"]
+      interval: 30s
+      timeout: 2s
+      retries: 5
+
+  # ES256 signer that refreshes the Entity Statement forever
+  signer:
+    <<: *sec
+    user: "${UID}:${GID}"
+    build:
+      context: .
+    image : oidf-ess-signer
+    container_name: oidf-ess-signer
+    environment:
+      ENTITY_ID: ${ENTITY_ID} 
+      EXP_SECONDS: ${EXP_SECONDS}
+      OUTPUT_PATH: ${OUTPUT_PATH}
+      JWKS_PATH: ${JWKS_PATH}
+      META_PATH: ${META_PATH}
+      RESIGN_INTERVAL: ${RESIGN_INTERVAL}
+    volumes:
+      - ./config:/config:ro
+      - ./data/www:/out:rw
+      - ./secrets:/run/secrets:ro
+      - ./signer:/opt/signer:ro

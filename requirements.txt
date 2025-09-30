@@ -1,0 +1,2 @@
+cryptojwt>=1.8.4
+cryptography>=41,<43
