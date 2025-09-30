@@ -23,7 +23,7 @@ Run the default bootstrap and start the containers.
 
 ```bash
 ./bootstrap.sh
-docker compose up -d
+docker compose up
 ```
 
 Fetch the Entity Configuration JWT and save it locally.
